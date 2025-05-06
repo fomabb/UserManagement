@@ -1,6 +1,7 @@
 package com.example.testwork.mapper.impl;
 
-import com.example.testwork.dto.request.UserDataRequest;
+import com.example.testwork.dto.request.UpdateUserRequest;
+import com.example.testwork.dto.request.UserDataCreateRequest;
 import com.example.testwork.dto.response.UserDataCreateResponse;
 import com.example.testwork.dto.response.UserDataInfoResponse;
 import com.example.testwork.entity.User;
@@ -19,7 +20,7 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public User createRequestToEntity(UserDataRequest dto) {
+    public User createRequestToEntity(UserDataCreateRequest dto) {
         return User.builder()
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
@@ -37,6 +38,27 @@ public class UserMapperImpl implements UserMapper {
                 .email(user.getEmail())
                 .createAt(user.getCreateAt())
                 .updateAt(user.getUpdateAt())
+                .build();
+    }
+
+    @Override
+    public User updateUserDtoToUpdateUserEntity(UpdateUserRequest dto) {
+        return User.builder()
+                .lastName(dto.getLastName())
+                .email(dto.getEmail())
+                .updateAt(now())
+                .build();
+    }
+
+    @Override
+    public User buildUpdateUserForSave(User existingUser, User updatedUser) {
+        return User.builder()
+                .id(existingUser.getId())
+                .firstName(updatedUser.getFirstName() != null ? updatedUser.getFirstName() : existingUser.getFirstName())
+                .lastName(updatedUser.getLastName() != null ? updatedUser.getLastName() : existingUser.getLastName())
+                .email(updatedUser.getEmail() != null ? updatedUser.getEmail() : existingUser.getEmail())
+                .createAt(existingUser.getCreateAt())
+                .updateAt(now())
                 .build();
     }
 }
