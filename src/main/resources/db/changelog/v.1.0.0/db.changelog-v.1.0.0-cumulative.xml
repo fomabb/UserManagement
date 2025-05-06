@@ -16,4 +16,10 @@
 
     <include file="02-create-table-subscriptions.sql" relativeToChangelogFile="true"/>
 
+    <changeSet id="2025-05-06-add-column-type-popularity-table-subscriptions-03" author="Nikolay Kirilyuk">
+        <tagDatabase tag="v.1.0.0"/>
+    </changeSet>
+
+    <include file="03-add-columns-table-subscriptions.sql" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>
