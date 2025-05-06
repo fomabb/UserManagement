@@ -1,5 +1,6 @@
-package com.example.testwork.dto;
+package com.example.testwork.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -7,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class UserDataDto {
+public class UserDataInfoResponse {
 
     private Long userId;
 
@@ -17,7 +18,9 @@ public class UserDataDto {
 
     private String email;
 
+    @JsonFormat(pattern = "dd.MM.yyyy HH:ss")
     private LocalDateTime createAt;
 
+    @JsonFormat(pattern = "dd.MM.yyyy HH:ss")
     private LocalDateTime updateAt;
 }
