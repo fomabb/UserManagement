@@ -5,6 +5,7 @@ import com.example.testwork.dto.request.UserDataCreateRequest;
 import com.example.testwork.dto.response.UserDataCreateResponse;
 import com.example.testwork.dto.response.UserDataInfoResponse;
 import com.example.testwork.exceptionhandler.response.CommonExceptionResponse;
+import com.example.testwork.facade.UserFacade;
 import com.example.testwork.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final UserFacade userFacade;
 
     @Operation(
             summary = "Добавить пользователя.",
@@ -63,7 +65,7 @@ public class UserController {
     )
     @PostMapping
     public ResponseEntity<UserDataCreateResponse> createUser(@RequestBody @Valid UserDataCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userFacade.createUser(request));
     }
 
     @Operation(

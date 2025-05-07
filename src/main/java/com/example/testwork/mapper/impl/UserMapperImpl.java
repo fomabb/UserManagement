@@ -6,12 +6,20 @@ import com.example.testwork.dto.response.UserDataCreateResponse;
 import com.example.testwork.dto.response.UserDataInfoResponse;
 import com.example.testwork.entity.User;
 import com.example.testwork.mapper.UserMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import static java.time.LocalDateTime.now;
 
 @Component
 public class UserMapperImpl implements UserMapper {
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UserMapperImpl(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     public UserDataCreateResponse userEntityToCreateResponse(User user) {
         return UserDataCreateResponse.builder()
@@ -25,6 +33,7 @@ public class UserMapperImpl implements UserMapper {
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .email(dto.getEmail())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .createAt(now())
                 .build();
     }
