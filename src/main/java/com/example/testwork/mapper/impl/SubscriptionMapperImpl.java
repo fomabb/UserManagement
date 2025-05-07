@@ -21,7 +21,12 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
     }
 
     @Override
-    public Subscription createSubscriptionRequestToEntity(SubscriptionTermination subscriptionTermination, User user, SubscriptionDataCreateRequest dto) {
+    public Subscription createSubscriptionRequestToEntity(
+            Subscription existingSubscription,
+            SubscriptionTermination subscriptionTermination,
+            User user,
+            SubscriptionDataCreateRequest dto
+    ) {
         return Subscription.builder()
                 .user(User.builder().id(user.getId()).build())
                 .type(dto.getSubscriptionName())
@@ -30,6 +35,7 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
                 .description(dto.getSubscriptionName().getDescription())
                 .price(dto.getSubscriptionName().getPrice(subscriptionTermination))
                 .expirationDate(dto.getSubscriptionTermination().getSubscriptionTermination())
+                .popularity(existingSubscription != null ? existingSubscription.getPopularity() + 1 : dto.getSubscriptionName().getPopularity())
                 .build();
     }
 }

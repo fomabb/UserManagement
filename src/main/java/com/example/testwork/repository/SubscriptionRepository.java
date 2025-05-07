@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
-    Integer findSubscriptionByType(SubscriptionType type);
+    Subscription findByUserIdAndType(Long userId, SubscriptionType subscriptionName);
 
     Subscription findSubscriptionByDescription(String description);
 }

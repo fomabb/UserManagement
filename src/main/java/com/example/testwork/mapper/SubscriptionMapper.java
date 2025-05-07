@@ -10,5 +10,5 @@ public interface SubscriptionMapper {
 
     SubscriptionDataCreateResponse subscriptionEntityToCreateSubscriptionResponse(User user, Subscription subscription);
 
-    Subscription createSubscriptionRequestToEntity(SubscriptionTermination subscriptionTermination, User user, SubscriptionDataCreateRequest dto);
+    Subscription createSubscriptionRequestToEntity(Subscription popularity, SubscriptionTermination subscriptionTermination, User user, SubscriptionDataCreateRequest dto);
 }

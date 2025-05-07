@@ -34,11 +34,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new EntityNotFoundException(USER_WITH_ID_NOT_FOUND.formatted(userId))
         );
+
         SubscriptionTermination subscriptionTermination = dto.getSubscriptionTermination();
+        Subscription subscriptionByDescription = subscriptionRepository.findSubscriptionByDescription(dto.getSubscriptionName().getDescription());
 
         return subscriptionMapper.subscriptionEntityToCreateSubscriptionResponse(user,
                 subscriptionRepository.save(
-                        subscriptionMapper.createSubscriptionRequestToEntity(subscriptionTermination, user, dto))
+                        subscriptionMapper.createSubscriptionRequestToEntity(subscriptionByDescription, subscriptionTermination, user, dto))
         );
     }
 
@@ -52,3 +54,5 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     }
 }
+
+

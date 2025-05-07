@@ -36,8 +36,10 @@ public enum SubscriptionType {
         BigDecimal basePrice = getBasePrice();
         return switch (termination) {
             case MONTHLY_SUBSCRIPTION -> basePrice;
-            case SUBSCRIPTION_TO_THE_QUARTER -> basePrice.multiply(BigDecimal.valueOf(3)).multiply(BigDecimal.valueOf(0.9)); // 10% скидка
-            case SUBSCRIPTION_FOR_A_YEAR -> basePrice.multiply(BigDecimal.valueOf(12)).multiply(BigDecimal.valueOf(0.8)); // 20% скидка
+            case SUBSCRIPTION_TO_THE_QUARTER ->
+                    basePrice.multiply(BigDecimal.valueOf(3)).multiply(BigDecimal.valueOf(0.9)); // 10% скидка
+            case SUBSCRIPTION_FOR_A_YEAR ->
+                    basePrice.multiply(BigDecimal.valueOf(12)).multiply(BigDecimal.valueOf(0.8)); // 20% скидка
         };
     }
 
