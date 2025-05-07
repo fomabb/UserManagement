@@ -1,5 +1,6 @@
 package com.example.testwork.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,7 +18,6 @@ public class SubscriptionUserDataResponse {
 
     private String description;
 
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
 }

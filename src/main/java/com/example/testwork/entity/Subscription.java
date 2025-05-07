@@ -55,9 +55,6 @@ public class Subscription {
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
 
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
