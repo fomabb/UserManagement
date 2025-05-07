@@ -24,4 +24,7 @@ public class SubscriptionUserDataResponse {
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime createAt;
+
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    private LocalDateTime expirationDate;
 }
