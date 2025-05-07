@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.example.testwork.util.constant.ConstantProject.USER_WITH_ID_NOT_FOUND;
 
 @Service
@@ -60,8 +62,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public SubscriptionUserDataResponse getSubscriptionByUserId(Long userId) {
-        return null;
+    public List<SubscriptionUserDataResponse> getSubscriptionByUserId(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException(USER_WITH_ID_NOT_FOUND.formatted(userId))
+        );
+        return subscriptionMapper.subscriptionListEntityToSubscriptionListDto(subscriptionRepository.findSubscriptionsByUserId(user.getId()));
     }
 
     @Override

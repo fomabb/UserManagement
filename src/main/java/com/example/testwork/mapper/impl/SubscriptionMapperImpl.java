@@ -2,11 +2,14 @@ package com.example.testwork.mapper.impl;
 
 import com.example.testwork.dto.request.SubscriptionDataCreateRequest;
 import com.example.testwork.dto.response.SubscriptionDataCreateResponse;
+import com.example.testwork.dto.response.SubscriptionUserDataResponse;
 import com.example.testwork.entity.Subscription;
 import com.example.testwork.entity.User;
 import com.example.testwork.entity.enumerate.SubscriptionTermination;
 import com.example.testwork.mapper.SubscriptionMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static java.time.LocalDateTime.now;
 
@@ -34,5 +37,18 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
                 .price(dto.getSubscriptionName().getPrice(subscriptionTermination))
                 .expirationDate(subscriptionTermination.getSubscriptionTermination())
                 .build();
+    }
+
+    @Override
+    public List<SubscriptionUserDataResponse> subscriptionListEntityToSubscriptionListDto(List<Subscription> subscriptions) {
+        return subscriptions.stream().map(subscription -> SubscriptionUserDataResponse.builder()
+                        .userId(subscription.getUser().getId())
+                        .subscriptionId(subscription.getId())
+                        .name(subscription.getType().name())
+                        .description(subscription.getDescription())
+                        .createAt(subscription.getCreateAt())
+                        .updateAt(subscription.getUpdateAt())
+                        .build())
+                .toList();
     }
 }

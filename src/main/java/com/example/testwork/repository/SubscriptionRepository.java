@@ -12,5 +12,5 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
 
     Subscription findByUserIdAndType(Long userId, SubscriptionType subscriptionName);
 
-    List<Subscription> findAllByDescription(String description);
+    List<Subscription> findSubscriptionsByUserId(Long userId);
 }
