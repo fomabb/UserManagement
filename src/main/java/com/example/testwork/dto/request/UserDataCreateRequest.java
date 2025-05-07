@@ -32,12 +32,12 @@ public class UserDataCreateRequest {
     @NotBlank(message = "Адрес электронной почты не может быть пустым")
     private String email;
 
-    @Schema(description = "Пароль для пользователя", example = "user")
+    @Schema(description = "Пароль для пользователя", example = "user123")
     @NotBlank(message = "Пароль не может быть пустым")
     @Size(min = 5, max = 255, message = "Адрес электронной почты должен содержать от 5 до 255 символов")
     private String password;
 
-    @Schema(description = "Подтверждение пароля", example = "user")
+    @Schema(description = "Подтверждение пароля", example = "user123")
     @NotBlank(message = "Пароль не может быть пустым")
     @Size(min = 5, max = 255, message = "Адрес электронной почты должен содержать от 5 до 255 символов")
     private String confirmPassword;
