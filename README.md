@@ -64,6 +64,14 @@ docker compose up
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/21948648/2sB2j7d9t6)
 
+# Модель данных
+
+## Диаграмма ER для модели данных
+
+<a href="materials/database_schema.png">
+    <img src="materials/database_schema.png" alt="db_diagram" width="600"/>
+</a>
+
 ## RESTful API
 
 **1. Описание API общих методов для управления пользователями**
