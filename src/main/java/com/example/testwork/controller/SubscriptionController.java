@@ -2,6 +2,7 @@ package com.example.testwork.controller;
 
 import com.example.testwork.dto.request.SubscriptionDataCreateRequest;
 import com.example.testwork.dto.response.SubscriptionDataCreateResponse;
+import com.example.testwork.dto.response.SubscriptionTopResponse;
 import com.example.testwork.dto.response.SubscriptionUserDataResponse;
 import com.example.testwork.service.SubscriptionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,5 +47,10 @@ public class SubscriptionController {
     ) {
         subscriptionService.deleteSubscriptionByIdsUserSubscription(userId, subId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/top")
+    public List<SubscriptionTopResponse> getTop3PopularSubscriptions() {
+        return subscriptionService.getTop3PopularSubscriptions();
     }
 }

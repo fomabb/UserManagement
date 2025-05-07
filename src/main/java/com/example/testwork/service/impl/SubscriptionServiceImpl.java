@@ -2,6 +2,7 @@ package com.example.testwork.service.impl;
 
 import com.example.testwork.dto.request.SubscriptionDataCreateRequest;
 import com.example.testwork.dto.response.SubscriptionDataCreateResponse;
+import com.example.testwork.dto.response.SubscriptionTopResponse;
 import com.example.testwork.dto.response.SubscriptionUserDataResponse;
 import com.example.testwork.entity.Subscription;
 import com.example.testwork.entity.SubscriptionStats;
@@ -84,6 +85,16 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             stats.setPopularity(stats.getPopularity() - 1);
             subscriptionStatsRepository.save(stats);
         }
+    }
+
+    @Override
+    public List<SubscriptionTopResponse> getTop3PopularSubscriptions() {
+        return subscriptionStatsRepository.findTop3ByOrderByPopularityDesc().stream()
+                .map(stat -> SubscriptionTopResponse.builder()
+                        .name(stat.getType())
+                        .popularity(stat.getPopularity())
+                        .build())
+                .toList();
     }
 
     private User getUserById(Long userId) {
