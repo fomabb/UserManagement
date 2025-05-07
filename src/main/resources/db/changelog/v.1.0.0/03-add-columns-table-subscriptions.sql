@@ -5,9 +5,6 @@ ALTER TABLE subscriptions
     ADD COLUMN type VARCHAR(50) NOT NULL DEFAULT '';
 
 ALTER TABLE subscriptions
-    ADD COLUMN popularity INT DEFAULT 0;
-
-ALTER TABLE subscriptions
     ADD COLUMN price DECIMAL DEFAULT 0.0;
 
 ALTER TABLE subscriptions

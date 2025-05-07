@@ -1,1 +1,0 @@
-CREATE UNIQUE INDEX unique_user_subscription ON subscriptions (user_id, type);
