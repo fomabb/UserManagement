@@ -28,29 +28,43 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDataCreateResponse createUser(UserDataCreateRequest dto) {
-        return userMapper.userEntityToCreateResponse(userRepository.save(userMapper.createRequestToEntity(dto)));
+        log.info("Создание пользователя с email: {}", dto.getEmail());
+        UserDataCreateResponse response = userMapper.userEntityToCreateResponse(
+                userRepository.save(userMapper.createRequestToEntity(dto))
+        );
+        log.info("Пользователь создан с ID: {}", response.getUserId());
+        return response;
     }
 
     @Override
     public UserDataInfoResponse getUserById(Long id) {
-        return userMapper.userEntityToUserInfoResponse(userRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(USER_WITH_ID_NOT_FOUND.formatted(id))
-        ));
+        log.info("Запрос пользователя с ID: {}", id);
+        UserDataInfoResponse response = userMapper.userEntityToUserInfoResponse(
+                userRepository.findById(id).orElseThrow(
+                        () -> new EntityNotFoundException(USER_WITH_ID_NOT_FOUND.formatted(id))
+                )
+        );
+        log.info("Пользователь найден: {}", response);
+        return response;
     }
 
     @Override
     @Transactional
     public void updateUser(Long id, UpdateUserRequest dto) {
+        log.info("Обновление пользователя с ID: {}", id);
         User existingUser = userRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(USER_WITH_ID_NOT_FOUND.formatted(id))
         );
         User updatedUser = userMapper.updateUserDtoToUpdateUserEntity(dto);
         userRepository.save(userMapper.buildUpdateUserForSave(existingUser, updatedUser));
+        log.info("Пользователь с ID: {} обновлен", id);
     }
 
     @Override
     @Transactional
     public void deleteUser(Long id) {
+        log.info("Удаление пользователя с ID: {}", id);
         userRepository.deleteById(id);
+        log.info("Пользователь с ID: {} удален", id);
     }
 }

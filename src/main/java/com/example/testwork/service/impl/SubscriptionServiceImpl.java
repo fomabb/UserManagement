@@ -42,24 +42,33 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional
     public SubscriptionDataCreateResponse addSubscriptionByUserById(Long userId, SubscriptionDataCreateRequest dto) {
+        log.info("Добавление подписки для пользователя с ID: {}", userId);
+
         User user = getUserById(userId);
+        log.info("Пользователь найден: {}", user);
 
         SubscriptionTermination subscriptionTermination = dto.getSubscriptionTermination();
         SubscriptionType type = dto.getSubscriptionName();
 
         Subscription existingSubscription = subscriptionRepository.findByUserIdAndType(userId, type);
         if (existingSubscription != null) {
+            log.error("Пользователь с ID: {} уже имеет подписку типа: {}", userId, type);
             throw new BusinessException(USER_ALREADY_HAS_THIS_SUBSCRIPTION);
         }
 
         SubscriptionStats stats = subscriptionStatsRepository.findById(type)
-                .orElseGet(() -> new SubscriptionStats(type, 0));
+                .orElseGet(() -> {
+                    log.info("Создание новой статистики для подписки типа: {}", type);
+                    return new SubscriptionStats(type, 0);
+                });
 
         stats.setPopularity(stats.getPopularity() + 1);
         subscriptionStatsRepository.save(stats);
+        log.info("Популярность подписки типа {} увеличена до {}", type, stats.getPopularity());
 
         Subscription subscription = subscriptionMapper.createSubscriptionRequestToEntity(subscriptionTermination, user, dto);
         subscription = subscriptionRepository.save(subscription);
+        log.info("Подписка добавлена: {}", subscription);
 
         return subscriptionMapper.subscriptionEntityToCreateSubscriptionResponse(user, subscription);
     }
@@ -73,14 +82,21 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional
     public void deleteSubscriptionByIdsUserSubscription(Long userId, Long subId) {
+        log.info("Удаление подписки с ID: {} для пользователя с ID: {}", subId, userId);
+
         Subscription subscription = subscriptionRepository.findById(subId)
-                .orElseThrow(() -> new EntityNotFoundException(SUBSCRIPTION_WITH_ID_NOT_FOUND.formatted(subId)));
+                .orElseThrow(() -> {
+                    log.error("Подписка с ID: {} не найдена", subId);
+                    return new EntityNotFoundException(SUBSCRIPTION_WITH_ID_NOT_FOUND.formatted(subId));
+                });
 
         if (!subscription.getUser().getId().equals(userId)) {
+            log.error("Подписка с ID: {} не принадлежит пользователю с ID: {}", subId, userId);
             throw new BusinessException(SUBSCRIPTION_DOES_NOT_BELONG_TO_USER_WITH_ID.formatted(userId));
         }
 
         subscriptionRepository.delete(subscription);
+        log.info("Подписка с ID: {} успешно удалена", subId);
 
         SubscriptionStats stats = subscriptionStatsRepository.findById(subscription.getType())
                 .orElse(null);
@@ -88,6 +104,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         if (stats != null && stats.getPopularity() > 0) {
             stats.setPopularity(stats.getPopularity() - 1);
             subscriptionStatsRepository.save(stats);
+            log.info("Популярность подписки типа {} уменьшена до {}", subscription.getType(), stats.getPopularity());
         }
     }
 
@@ -107,5 +124,3 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         );
     }
 }
-
-
