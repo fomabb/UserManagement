@@ -47,6 +47,7 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
                         .name(subscription.getType().name())
                         .description(subscription.getDescription())
                         .createAt(subscription.getCreateAt())
+                        .expirationDate(subscription.getExpirationDate())
                         .build())
                 .toList();
     }
