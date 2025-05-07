@@ -7,7 +7,6 @@
 - JPA
 - PostgresSQL
 - Spring Boot
-- Spring security
 - Docker container
 - Liquibase migration db
 
