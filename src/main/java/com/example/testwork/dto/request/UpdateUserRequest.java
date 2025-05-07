@@ -23,6 +23,6 @@ public class UpdateUserRequest {
 
     @Schema(description = "Адрес электронной почты пользователя.", example = "foma@gmail.com")
     @Email(message = "Адрес электронной почты должен быть в формате user@gmail.com")
-    @Size(min = 5, max = 100, message = "Адрес электронной почты должен содержать от 5 до 100 символов")
+    @Size(min = 5, max = 255, message = "Адрес электронной почты должен содержать от 5 до 100 символов")
     private String email;
 }

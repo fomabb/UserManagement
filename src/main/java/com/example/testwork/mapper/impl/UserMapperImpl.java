@@ -67,6 +67,7 @@ public class UserMapperImpl implements UserMapper {
                 .lastName(updatedUser.getLastName() != null ? updatedUser.getLastName() : existingUser.getLastName())
                 .email(updatedUser.getEmail() != null ? updatedUser.getEmail() : existingUser.getEmail())
                 .createAt(existingUser.getCreateAt())
+                .password(existingUser.getPassword())
                 .updateAt(now())
                 .build();
     }
