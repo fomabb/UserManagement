@@ -21,7 +21,7 @@ public enum SubscriptionType {
         };
     }
 
-    public BigDecimal getPrice() {
+    public BigDecimal getBasePrice() {
         return switch (this) {
             case YOUTUBE_PREMIUM -> BigDecimal.valueOf(11.99);
             case VK_MUSIC -> BigDecimal.valueOf(4.44);
@@ -29,6 +29,15 @@ public enum SubscriptionType {
             case NETFLIX -> BigDecimal.valueOf(15.11);
             case DISNEY_PLUS -> BigDecimal.valueOf(7.92);
             case SPOTIFY -> BigDecimal.valueOf(12.21);
+        };
+    }
+
+    public BigDecimal getPrice(SubscriptionTermination termination) {
+        BigDecimal basePrice = getBasePrice();
+        return switch (termination) {
+            case MONTHLY_SUBSCRIPTION -> basePrice;
+            case SUBSCRIPTION_TO_THE_QUARTER -> basePrice.multiply(BigDecimal.valueOf(3)).multiply(BigDecimal.valueOf(0.9)); // 10% скидка
+            case SUBSCRIPTION_FOR_A_YEAR -> basePrice.multiply(BigDecimal.valueOf(12)).multiply(BigDecimal.valueOf(0.8)); // 20% скидка
         };
     }
 

@@ -3,7 +3,9 @@ package com.example.testwork.service.impl;
 import com.example.testwork.dto.request.SubscriptionDataCreateRequest;
 import com.example.testwork.dto.response.SubscriptionDataCreateResponse;
 import com.example.testwork.dto.response.SubscriptionUserDataResponse;
+import com.example.testwork.entity.Subscription;
 import com.example.testwork.entity.User;
+import com.example.testwork.entity.enumerate.SubscriptionTermination;
 import com.example.testwork.mapper.SubscriptionMapper;
 import com.example.testwork.repository.SubscriptionRepository;
 import com.example.testwork.repository.UserRepository;
@@ -29,14 +31,14 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional
     public SubscriptionDataCreateResponse addSubscriptionByUserById(Long userId, SubscriptionDataCreateRequest dto) {
-
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new EntityNotFoundException(USER_WITH_ID_NOT_FOUND.formatted(userId))
         );
+        SubscriptionTermination subscriptionTermination = dto.getSubscriptionTermination();
 
         return subscriptionMapper.subscriptionEntityToCreateSubscriptionResponse(user,
                 subscriptionRepository.save(
-                        subscriptionMapper.createSubscriptionRequestToEntity(user, dto))
+                        subscriptionMapper.createSubscriptionRequestToEntity(subscriptionTermination, user, dto))
         );
     }
 

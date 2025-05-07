@@ -1,5 +1,6 @@
 package com.example.testwork.entity;
 
+import com.example.testwork.entity.enumerate.SubscriptionTermination;
 import com.example.testwork.entity.enumerate.SubscriptionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,6 +50,13 @@ public class Subscription {
 
     @Column(name = "create_at")
     private LocalDateTime createAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subscription_termination")
+    private SubscriptionTermination subscriptionTermination;
+
+    @Column(name = "expiration_date")
+    private LocalDateTime expirationDate;
 
     @Column(name = "update_at")
     private LocalDateTime updateAt;

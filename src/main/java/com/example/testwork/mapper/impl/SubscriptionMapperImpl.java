@@ -4,6 +4,7 @@ import com.example.testwork.dto.request.SubscriptionDataCreateRequest;
 import com.example.testwork.dto.response.SubscriptionDataCreateResponse;
 import com.example.testwork.entity.Subscription;
 import com.example.testwork.entity.User;
+import com.example.testwork.entity.enumerate.SubscriptionTermination;
 import com.example.testwork.mapper.SubscriptionMapper;
 import org.springframework.stereotype.Component;
 
@@ -20,14 +21,15 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
     }
 
     @Override
-    public Subscription createSubscriptionRequestToEntity(User user, SubscriptionDataCreateRequest dto) {
+    public Subscription createSubscriptionRequestToEntity(SubscriptionTermination subscriptionTermination, User user, SubscriptionDataCreateRequest dto) {
         return Subscription.builder()
                 .user(User.builder().id(user.getId()).build())
                 .type(dto.getSubscriptionName())
                 .createAt(now())
+                .subscriptionTermination(subscriptionTermination)
                 .description(dto.getSubscriptionName().getDescription())
-                .price(dto.getSubscriptionName().getPrice())
-                .popularity(dto.getSubscriptionName().getPopularity() + 1)
+                .price(dto.getSubscriptionName().getPrice(subscriptionTermination))
+                .expirationDate(dto.getSubscriptionTermination().getSubscriptionTermination())
                 .build();
     }
 }

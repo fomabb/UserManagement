@@ -4,10 +4,11 @@ import com.example.testwork.dto.request.SubscriptionDataCreateRequest;
 import com.example.testwork.dto.response.SubscriptionDataCreateResponse;
 import com.example.testwork.entity.Subscription;
 import com.example.testwork.entity.User;
+import com.example.testwork.entity.enumerate.SubscriptionTermination;
 
 public interface SubscriptionMapper {
 
     SubscriptionDataCreateResponse subscriptionEntityToCreateSubscriptionResponse(User user, Subscription subscription);
 
-    Subscription createSubscriptionRequestToEntity(User user, SubscriptionDataCreateRequest dto);
+    Subscription createSubscriptionRequestToEntity(SubscriptionTermination subscriptionTermination, User user, SubscriptionDataCreateRequest dto);
 }
