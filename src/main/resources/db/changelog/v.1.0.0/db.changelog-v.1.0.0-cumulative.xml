@@ -16,4 +16,24 @@
 
     <include file="02-create-table-subscriptions.sql" relativeToChangelogFile="true"/>
 
+    <changeSet id="2025-05-06-add-column-type-popularity-table-subscriptions-03" author="Nikolay Kirilyuk">
+        <tagDatabase tag="v.1.0.0"/>
+    </changeSet>
+
+    <include file="03-add-columns-table-subscriptions.sql" relativeToChangelogFile="true"/>
+
+    <changeSet id="2025-05-06-create-table-subscription_stats -04" author="Nikolay Kirilyuk">
+        <tagDatabase tag="v.1.0.0"/>
+    </changeSet>
+
+    <include file="04-create-table-subscription_stats.sql" relativeToChangelogFile="true"/>
+
+    <!--====================================StaticData=========================================================-->
+
+    <changeSet id="2025-05-06-insert-into-data-subscription_stats-01" author="Nikolay Kirilyuk">
+        <tagDatabase tag="v.1.0.0"/>
+    </changeSet>
+
+    <include file="static-data/01-insert-into-subscription_stats.sql" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>

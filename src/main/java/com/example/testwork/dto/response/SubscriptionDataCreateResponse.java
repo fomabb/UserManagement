@@ -7,5 +7,7 @@ import lombok.Getter;
 @Builder
 public class SubscriptionDataCreateResponse {
 
+    private Long userId;
+
     private Long subscriptionId;
 }
