@@ -42,17 +42,6 @@ public enum SubscriptionType {
                     basePrice.multiply(BigDecimal.valueOf(12)).multiply(BigDecimal.valueOf(0.8)); // 20% скидка
         };
     }
-
-    public Integer getPopularity() {
-        return switch (this) {
-            case YOUTUBE_PREMIUM -> 2100;
-            case VK_MUSIC -> 1200;
-            case YANDEX_PLUS -> 1980;
-            case NETFLIX -> 2400;
-            case DISNEY_PLUS -> 980;
-            case SPOTIFY -> 1621;
-        };
-    }
 }
 
 

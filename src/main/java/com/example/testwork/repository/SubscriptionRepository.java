@@ -5,10 +5,12 @@ import com.example.testwork.entity.enumerate.SubscriptionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
     Subscription findByUserIdAndType(Long userId, SubscriptionType subscriptionName);
 
-    Subscription findSubscriptionByDescription(String description);
+    List<Subscription> findAllByDescription(String description);
 }

@@ -38,11 +38,8 @@ public class Subscription {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "popularity")
-    private Integer popularity;
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", unique = true, nullable = false)
+    @Column(name = "type", nullable = false)
     private SubscriptionType type;
 
     @Column(name = "price")

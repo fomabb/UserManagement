@@ -4,10 +4,13 @@ import com.example.testwork.dto.request.SubscriptionDataCreateRequest;
 import com.example.testwork.dto.response.SubscriptionDataCreateResponse;
 import com.example.testwork.dto.response.SubscriptionUserDataResponse;
 import com.example.testwork.entity.Subscription;
+import com.example.testwork.entity.SubscriptionStats;
 import com.example.testwork.entity.User;
 import com.example.testwork.entity.enumerate.SubscriptionTermination;
+import com.example.testwork.entity.enumerate.SubscriptionType;
 import com.example.testwork.mapper.SubscriptionMapper;
 import com.example.testwork.repository.SubscriptionRepository;
+import com.example.testwork.repository.SubscriptionStatsRepository;
 import com.example.testwork.repository.UserRepository;
 import com.example.testwork.service.SubscriptionService;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,6 +30,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final UserRepository userRepository;
     private final SubscriptionMapper subscriptionMapper;
+    private final SubscriptionStatsRepository subscriptionStatsRepository;
 
     @Override
     @Transactional
@@ -36,12 +40,23 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         );
 
         SubscriptionTermination subscriptionTermination = dto.getSubscriptionTermination();
-        Subscription subscriptionByDescription = subscriptionRepository.findSubscriptionByDescription(dto.getSubscriptionName().getDescription());
+        SubscriptionType type = dto.getSubscriptionName();
 
-        return subscriptionMapper.subscriptionEntityToCreateSubscriptionResponse(user,
-                subscriptionRepository.save(
-                        subscriptionMapper.createSubscriptionRequestToEntity(subscriptionByDescription, subscriptionTermination, user, dto))
-        );
+        Subscription existingSubscription = subscriptionRepository.findByUserIdAndType(userId, type);
+        if (existingSubscription != null) {
+            throw new EntityNotFoundException("User already has this subscription");
+        }
+
+        SubscriptionStats stats = subscriptionStatsRepository.findById(type)
+                .orElseGet(() -> new SubscriptionStats(type, 0));
+
+        stats.setPopularity(stats.getPopularity() + 1);
+        subscriptionStatsRepository.save(stats);
+
+        Subscription subscription = subscriptionMapper.createSubscriptionRequestToEntity(subscriptionTermination, user, dto);
+        subscription = subscriptionRepository.save(subscription);
+
+        return subscriptionMapper.subscriptionEntityToCreateSubscriptionResponse(user, subscription);
     }
 
     @Override
