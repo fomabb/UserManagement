@@ -7,3 +7,11 @@ CREATE TABLE users
     create_at  TIMESTAMP,
     update_at  TIMESTAMP
 );
+
+comment on table users is 'Таблица для хранения данных о пользователях';
+comment on column users.id is 'Идентификатор пользователя';
+comment on column users.first_name is 'Имя пользователя';
+comment on column users.last_name is 'Фамилия пользователя';
+comment on column users.email is 'Электронная почта пользователя';
+comment on column users.create_at is 'Дата и время создания пользователя';
+comment on column users.update_at is 'Дата и время обновления пользователя';

@@ -47,7 +47,6 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
                         .name(subscription.getType().name())
                         .description(subscription.getDescription())
                         .createAt(subscription.getCreateAt())
-                        .updateAt(subscription.getUpdateAt())
                         .build())
                 .toList();
     }

@@ -9,6 +9,7 @@ import com.example.testwork.entity.SubscriptionStats;
 import com.example.testwork.entity.User;
 import com.example.testwork.entity.enumerate.SubscriptionTermination;
 import com.example.testwork.entity.enumerate.SubscriptionType;
+import com.example.testwork.exceptionhandler.exception.BusinessException;
 import com.example.testwork.mapper.SubscriptionMapper;
 import com.example.testwork.repository.SubscriptionRepository;
 import com.example.testwork.repository.SubscriptionStatsRepository;
@@ -22,6 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.example.testwork.util.constant.ConstantProject.SUBSCRIPTION_DOES_NOT_BELONG_TO_USER_WITH_ID;
+import static com.example.testwork.util.constant.ConstantProject.SUBSCRIPTION_WITH_ID_NOT_FOUND;
+import static com.example.testwork.util.constant.ConstantProject.USER_ALREADY_HAS_THIS_SUBSCRIPTION;
 import static com.example.testwork.util.constant.ConstantProject.USER_WITH_ID_NOT_FOUND;
 
 @Service
@@ -45,7 +49,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         Subscription existingSubscription = subscriptionRepository.findByUserIdAndType(userId, type);
         if (existingSubscription != null) {
-            throw new EntityNotFoundException("User already has this subscription");
+            throw new BusinessException(USER_ALREADY_HAS_THIS_SUBSCRIPTION);
         }
 
         SubscriptionStats stats = subscriptionStatsRepository.findById(type)
@@ -70,10 +74,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Transactional
     public void deleteSubscriptionByIdsUserSubscription(Long userId, Long subId) {
         Subscription subscription = subscriptionRepository.findById(subId)
-                .orElseThrow(() -> new EntityNotFoundException("Subscription with ID %d not found".formatted(subId)));
+                .orElseThrow(() -> new EntityNotFoundException(SUBSCRIPTION_WITH_ID_NOT_FOUND.formatted(subId)));
 
         if (!subscription.getUser().getId().equals(userId)) {
-            throw new IllegalArgumentException("Subscription does not belong to user with ID " + userId);
+            throw new BusinessException(SUBSCRIPTION_DOES_NOT_BELONG_TO_USER_WITH_ID.formatted(userId));
         }
 
         subscriptionRepository.delete(subscription);
