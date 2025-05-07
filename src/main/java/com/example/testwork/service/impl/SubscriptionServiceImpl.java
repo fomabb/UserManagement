@@ -37,9 +37,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional
     public SubscriptionDataCreateResponse addSubscriptionByUserById(Long userId, SubscriptionDataCreateRequest dto) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new EntityNotFoundException(USER_WITH_ID_NOT_FOUND.formatted(userId))
-        );
+        User user = getUserById(userId);
 
         SubscriptionTermination subscriptionTermination = dto.getSubscriptionTermination();
         SubscriptionType type = dto.getSubscriptionName();
@@ -63,15 +61,35 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public List<SubscriptionUserDataResponse> getSubscriptionByUserId(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new EntityNotFoundException(USER_WITH_ID_NOT_FOUND.formatted(userId))
-        );
+        User user = getUserById(userId);
         return subscriptionMapper.subscriptionListEntityToSubscriptionListDto(subscriptionRepository.findSubscriptionsByUserId(user.getId()));
     }
 
     @Override
+    @Transactional
     public void deleteSubscriptionByIdsUserSubscription(Long userId, Long subId) {
+        Subscription subscription = subscriptionRepository.findById(subId)
+                .orElseThrow(() -> new EntityNotFoundException("Subscription with ID %d not found".formatted(subId)));
 
+        if (!subscription.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("Subscription does not belong to user with ID " + userId);
+        }
+
+        subscriptionRepository.delete(subscription);
+
+        SubscriptionStats stats = subscriptionStatsRepository.findById(subscription.getType())
+                .orElse(null);
+
+        if (stats != null && stats.getPopularity() > 0) {
+            stats.setPopularity(stats.getPopularity() - 1);
+            subscriptionStatsRepository.save(stats);
+        }
+    }
+
+    private User getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException(USER_WITH_ID_NOT_FOUND.formatted(userId))
+        );
     }
 }
 
