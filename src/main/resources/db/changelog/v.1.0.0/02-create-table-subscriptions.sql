@@ -11,3 +11,4 @@ CREATE TABLE subscriptions
 comment on table subscriptions is 'Таблица для хранения данных о подписках пользователя';
 comment on column subscriptions.id is 'Идентификатор подписки';
 comment on column subscriptions.description is 'Описание подписки';
+comment on column subscriptions.create_at is 'Дата и время создания подписки';
