@@ -4,6 +4,7 @@ import com.example.testwork.dto.request.SubscriptionDataCreateRequest;
 import com.example.testwork.dto.response.SubscriptionDataCreateResponse;
 import com.example.testwork.dto.response.SubscriptionUserDataResponse;
 import com.example.testwork.entity.Subscription;
+import com.example.testwork.entity.SubscriptionStats;
 import com.example.testwork.entity.User;
 import com.example.testwork.entity.enumerate.SubscriptionTermination;
 import com.example.testwork.mapper.SubscriptionMapper;
@@ -26,7 +27,8 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
     public Subscription createSubscriptionRequestToEntity(
             SubscriptionTermination subscriptionTermination,
             User user,
-            SubscriptionDataCreateRequest dto
+            SubscriptionDataCreateRequest dto,
+            SubscriptionStats stats
     ) {
         return Subscription.builder()
                 .user(User.builder().id(user.getId()).build())
@@ -34,7 +36,7 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
                 .createAt(now())
                 .subscriptionTermination(subscriptionTermination)
                 .description(dto.getSubscriptionName().getDescription())
-                .price(dto.getSubscriptionName().getPrice(subscriptionTermination))
+                .price(subscriptionTermination.getPrice(stats))
                 .expirationDate(subscriptionTermination.getSubscriptionTermination())
                 .build();
     }
@@ -46,6 +48,7 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
                         .subscriptionId(subscription.getId())
                         .name(subscription.getType().name())
                         .description(subscription.getDescription())
+                        .price(subscription.getPrice())
                         .createAt(subscription.getCreateAt())
                         .expirationDate(subscription.getExpirationDate())
                         .build())

@@ -69,7 +69,8 @@ public class SubscriptionController {
             @PathVariable("id") Long userId,
             @RequestBody SubscriptionDataCreateRequest request
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(subscriptionService.addSubscriptionByUserById(userId, request));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(subscriptionService.addSubscriptionByUserById(userId, request));
     }
 
     @Operation(

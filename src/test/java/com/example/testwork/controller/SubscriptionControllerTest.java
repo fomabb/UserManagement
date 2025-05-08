@@ -93,7 +93,8 @@ public class SubscriptionControllerTest {
         mockMvc.perform(delete("/api/v1/subscriptions/{sub_id}/users/{id}", subId, userId))
                 .andExpect(status().isNoContent());
 
-        verify(subscriptionService, times(1)).deleteSubscriptionByIdsUserSubscription(userId, subId);
+        verify(subscriptionService, times(1))
+                .deleteSubscriptionByIdsUserSubscription(userId, subId);
     }
 
     @Test
