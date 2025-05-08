@@ -2,6 +2,7 @@ package com.example.testwork.mapper.impl;
 
 import com.example.testwork.dto.request.SubscriptionDataCreateRequest;
 import com.example.testwork.dto.response.SubscriptionDataCreateResponse;
+import com.example.testwork.dto.response.SubscriptionTopResponse;
 import com.example.testwork.dto.response.SubscriptionUserDataResponse;
 import com.example.testwork.entity.Subscription;
 import com.example.testwork.entity.SubscriptionStats;
@@ -54,5 +55,16 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
                         .expirationDate(subscription.getExpirationDate())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public SubscriptionTopResponse subscriptionTop3EntityToDto(SubscriptionStats stat) {
+        return SubscriptionTopResponse.builder()
+                .name(stat.getType())
+                .popularity(stat.getPopularity())
+                .pricePerMonth(SubscriptionTermination.MONTHLY_SUBSCRIPTION.getPrice(stat))
+                .pricePerQUARTER(SubscriptionTermination.SUBSCRIPTION_TO_THE_QUARTER.getPrice(stat))
+                .pricePerYear(SubscriptionTermination.SUBSCRIPTION_FOR_A_YEAR.getPrice(stat))
+                .build();
     }
 }

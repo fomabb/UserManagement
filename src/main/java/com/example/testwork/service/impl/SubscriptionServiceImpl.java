@@ -115,10 +115,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public List<SubscriptionTopResponse> getTop3PopularSubscriptions() {
         return subscriptionStatsRepository.findTop3ByOrderByPopularityDesc().stream()
-                .map(stat -> SubscriptionTopResponse.builder()
-                        .name(stat.getType())
-                        .popularity(stat.getPopularity())
-                        .build())
+                .map(subscriptionMapper::subscriptionTop3EntityToDto)
                 .toList();
     }
 
