@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,4 +21,10 @@ public class SubscriptionTopResponse {
 
     @Schema(description = "Популярность подписки (количество подписчиков).", example = "2400")
     private int popularity;
+
+    private BigDecimal pricePerMonth;
+
+    private BigDecimal pricePerQUARTER;
+
+    private BigDecimal pricePerYear;
 }
