@@ -24,7 +24,7 @@ public class SubscriptionTopResponse {
 
     private BigDecimal pricePerMonth;
 
-    private BigDecimal pricePerQUARTER;
+    private BigDecimal pricePerQuarter;
 
     private BigDecimal pricePerYear;
 }
