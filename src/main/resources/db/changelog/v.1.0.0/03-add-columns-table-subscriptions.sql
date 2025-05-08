@@ -12,3 +12,9 @@ ALTER TABLE subscriptions
 
 ALTER TABLE subscriptions
     ADD COLUMN expiration_date TIMESTAMP;
+
+comment on column subscriptions.user_id is 'Связь с таблицей пользователя по идентификатору пользователя';
+comment on column subscriptions.type is 'Наименование подписки';
+comment on column subscriptions.price is 'Цена подписки';
+comment on column subscriptions.subscription_termination is 'Период подписки';
+comment on column subscriptions.expiration_date is 'Дата и время окончания подписки';
