@@ -63,7 +63,7 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
                 .name(stat.getType())
                 .popularity(stat.getPopularity())
                 .pricePerMonth(SubscriptionTermination.MONTHLY_SUBSCRIPTION.getPrice(stat))
-                .pricePerQUARTER(SubscriptionTermination.SUBSCRIPTION_TO_THE_QUARTER.getPrice(stat))
+                .pricePerQuarter(SubscriptionTermination.SUBSCRIPTION_TO_THE_QUARTER.getPrice(stat))
                 .pricePerYear(SubscriptionTermination.SUBSCRIPTION_FOR_A_YEAR.getPrice(stat))
                 .build();
     }
