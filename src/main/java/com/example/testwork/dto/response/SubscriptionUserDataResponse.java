@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,6 +22,8 @@ public class SubscriptionUserDataResponse {
     private String name;
 
     private String description;
+
+    private BigDecimal price;
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime createAt;

@@ -28,6 +28,12 @@
 
     <include file="04-create-table-subscription_stats.sql" relativeToChangelogFile="true"/>
 
+    <changeSet id="2025-05-08-05-add-column-price-sub-stats-05" author="Nikolay Kirilyuk">
+        <tagDatabase tag="v.1.0.0"/>
+    </changeSet>
+
+    <include file="05-add-column-price-sub-stats.sql" relativeToChangelogFile="true"/>
+
     <!--====================================StaticData=========================================================-->
 
     <changeSet id="2025-05-06-insert-into-data-subscription_stats-01" author="Nikolay Kirilyuk">

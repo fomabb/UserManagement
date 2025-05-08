@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.example.testwork.util.constant.ConstantProject.SUBSCRIPTION_DOES_NOT_BELONG_TO_USER_WITH_ID;
@@ -59,14 +60,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         SubscriptionStats stats = subscriptionStatsRepository.findById(type)
                 .orElseGet(() -> {
                     log.info("Создание новой статистики для подписки типа: {}", type);
-                    return new SubscriptionStats(type, 0);
+                    return new SubscriptionStats(type, 0, BigDecimal.valueOf(0.0));
                 });
 
         stats.setPopularity(stats.getPopularity() + 1);
         subscriptionStatsRepository.save(stats);
         log.info("Популярность подписки типа {} увеличена до {}", type, stats.getPopularity());
 
-        Subscription subscription = subscriptionMapper.createSubscriptionRequestToEntity(subscriptionTermination, user, dto);
+        Subscription subscription = subscriptionMapper
+                .createSubscriptionRequestToEntity(subscriptionTermination, user, dto, stats);
         subscription = subscriptionRepository.save(subscription);
         log.info("Подписка добавлена: {}", subscription);
 
@@ -76,7 +78,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public List<SubscriptionUserDataResponse> getSubscriptionByUserId(Long userId) {
         User user = getUserById(userId);
-        return subscriptionMapper.subscriptionListEntityToSubscriptionListDto(subscriptionRepository.findSubscriptionsByUserId(user.getId()));
+        return subscriptionMapper.subscriptionListEntityToSubscriptionListDto(
+                subscriptionRepository.findSubscriptionsByUserId(user.getId())
+        );
     }
 
     @Override

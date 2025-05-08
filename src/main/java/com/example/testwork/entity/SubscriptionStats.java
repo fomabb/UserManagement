@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "subscription_stats")
 @NoArgsConstructor
@@ -24,4 +26,6 @@ public class SubscriptionStats {
     private SubscriptionType type;
 
     private Integer popularity;
+
+    private BigDecimal price;
 }
