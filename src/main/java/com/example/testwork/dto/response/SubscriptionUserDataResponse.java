@@ -23,6 +23,8 @@ public class SubscriptionUserDataResponse {
 
     private String description;
 
+    private String subscriptionTermination;
+
     private BigDecimal price;
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")

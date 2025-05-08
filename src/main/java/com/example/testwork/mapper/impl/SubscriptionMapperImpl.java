@@ -48,6 +48,7 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
                         .subscriptionId(subscription.getId())
                         .name(subscription.getType().name())
                         .description(subscription.getDescription())
+                        .subscriptionTermination(String.valueOf(subscription.getSubscriptionTermination()))
                         .price(subscription.getPrice())
                         .createAt(subscription.getCreateAt())
                         .expirationDate(subscription.getExpirationDate())
